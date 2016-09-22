@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="../../node_modules/d3/build/d3.min.js"></script>
+    </head>
+    <body>
+        <h3>柱状图</h3>
+        <div id="svg1"></div>
+        <h3>柱状图-伸缩比例尺</h3>
+        <div id="svg2"></div>
+        <script>    
+        var width = '100%';  
+        var height = 200;  
+        var svg1 = d3.select("#svg1").append("svg")  
+                       .attr("width",width)  
+                       .attr("height",height);  
+          
+        var dataset = [ 30 , 20 , 45 , 12 , 21 ];  
+          
+        svg1.selectAll("rect")  
+           .data(dataset)  
+           .enter()  
+           .append("rect")  
+           .attr("x",10)  
+           .attr("y",function(d,i){  
+                return i * 30;  
+           })  
+           .attr("width",function(d,i){  
+                return d * 10;  
+           })  
+           .attr("height",28)  
+           .attr("fill","red");  
+
+           ////
+           var wx = d3.scaleLinear()  
+                .domain([0,d3.max(dataset)])  
+                .range([0,500]);
+
+        var svg2 = d3.select("#svg2").append("svg")  
+                   .attr("width",width)  
+                   .attr("height",height);  
+
+        svg2.selectAll("rect")
+           .data(dataset)  
+           .enter()  
+           .append("rect")  
+           .attr("x",10)  
+           .attr("y",function(d,i){  
+                return i * 30;  
+           })  
+           .attr("width",wx)           //注意这里  
+           .attr("height",28)  
+           .attr("fill","red");
+             
+</script>  
+    </body>
+</html>
