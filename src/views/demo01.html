@@ -3,12 +3,23 @@
     <head>
         <meta charset="utf-8">
         <script type="text/javascript" src="../../node_modules/d3/build/d3.min.js"></script>
+        <style type="text/css">
+            div {
+                width: 50%;
+                float: left;
+            }
+        </style>
     </head>
     <body>
-        <h3>柱状图</h3>
-        <div id="svg1"></div>
-        <h3>柱状图-伸缩比例尺</h3>
-        <div id="svg2"></div>
+        <div id="svg1">
+            <h3>柱状图</h3>
+        </div>
+        <div id="svg2">
+            <h3>柱状图 - 弹性范围</h3>
+        </div>
+        <div id="svg3">
+            <h3>柱状图 - 横坐标</h3>
+        </div>
         <script>    
         var width = '100%';  
         var height = 200;  
@@ -30,12 +41,12 @@
                 return d * 10;  
            })  
            .attr("height",28)  
-           .attr("fill","red");  
+           .attr("fill","#ccc");  
 
-           ////
-           var wx = d3.scaleLinear()  
-                .domain([0,d3.max(dataset)])  
-                .range([0,500]);
+        //// 弹性范围
+        var wx = d3.scaleLinear()  
+            .domain([0,d3.max(dataset)])  
+            .range([0,500]);
 
         var svg2 = d3.select("#svg2").append("svg")  
                    .attr("width",width)  
@@ -51,7 +62,36 @@
            })  
            .attr("width",wx)           //注意这里  
            .attr("height",28)  
-           .attr("fill","red");
+           .attr("fill","#ccc");
+        
+        // 横坐标
+        var svg3 = d3.select("#svg3").append('svg')
+            .attr('width', width)
+            .attr('height', height);
+
+        var xScale = d3.scaleLinear()
+            .domain([0, d3.max(dataset)])
+            .range([0, 500]);
+
+        svg3.selectAll('rect')
+            .data(dataset)
+            .enter()
+            .append('rect')
+            .attr('x', 10)
+            .attr('y', function(d, i) {
+                return i * 30;
+            })
+            .attr('width', xScale)
+            .attr('height', 28)
+            .attr('fill', '#ccc');
+
+
+        var axis = d3.axisBottom(xScale);
+
+        svg3.append('g')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(10, 160)')
+            .call(axis);
              
 </script>  
     </body>
