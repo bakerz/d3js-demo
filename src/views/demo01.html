@@ -20,6 +20,10 @@
         <div id="svg3">
             <h3>柱状图 - 横坐标</h3>
         </div>
+        <div id="svg4">
+            <h3>横、纵坐标</h3>
+        </div>
+
         <script>    
         var width = '100%';  
         var height = 200;  
@@ -92,7 +96,91 @@
             .attr('class', 'axis')
             .attr('transform', 'translate(10, 160)')
             .call(axis);
+
+        // 横、纵坐标
+        var dataArr = [];
+        var num = 15;  //数组的数量  
+          
+        for(var i = 0; i < num ; i++){  
+            var tempnum = Math.floor( Math.random() * 50 );   // 返回 0~49 整数  
+            dataArr.push(tempnum);  
+        }
+          
+        var svg4 = d3.select("#svg4").append("svg")  
+            .attr("width",width)  
+            .attr("height",height);  
+          
+        var xAxisScale = d3.scaleOrdinal()  
+            .domain(d3.range(dataArr.length))
+            //.range([0, 500]); 
+            //.rangeRoundBands([0,500]);
+            .range([0, 500]);
+                              
+        var yAxisScale = d3.scaleLinear()  
+            .domain([0,d3.max(dataArr)])  
+            .range([500,0]);  
+                              
+        var xAxis = d3.axisBottom(xAxisScale);
+          
+        var yAxis = d3.axisLeft(yAxisScale);
+  
+        var xScale = d3.scaleOrdinal()  
+            .domain(d3.range(dataArr.length))  
+            //.range([0, 500], 0.05);
+            .range([0,500]);  
+                              
+        var yScale = d3.scaleLinear()  
+            .domain([0,d3.max(dataArr)])  
+            .range([0,500]);  
+          
+        svg4.selectAll("rect")  
+           .data(dataArr)  
+           .enter()  
+           .append("rect")  
+           .attr("x", function(d,i){  
+                return 30 + xScale(i);  
+           } )  
+           .attr("y",function(d,i){  
+                return 50 + 500 - yScale(d) ;  
+           })  
+           .attr("width", function(d,i){  
+                //return xScale.rangeBand();
+                return 30;
+           })  
+           .attr("height",yScale)  
+           .attr("fill","red");  
              
+        svg4.selectAll("text")  
+            .data(dataArr)  
+            .enter().append("text")  
+            .attr("x", function(d,i){  
+                return 30 + xScale(i);  
+           } )  
+           .attr("y",function(d,i){  
+                return 50 + 500 - yScale(d) ;  
+           })  
+            .attr("dx", function(d,i){  
+                //return xScale.rangeBand()/3;  
+                return 30;
+           })  
+            .attr("dy", 15)  
+            .attr("text-anchor", "begin")  
+            .attr("font-size", 14)  
+            .attr("fill","white")  
+            .text(function(d,i){  
+                return d;  
+            });  
+             
+        svg4.append("g")  
+            .attr("class","axis")  
+            .attr("transform","translate(30,550)")
+            .call(xAxis);
+              
+        svg4.append("g")  
+            .attr("class","axis")  
+            .attr("transform","translate(30,50)")
+            .call(yAxis);
+
 </script>  
     </body>
 </html>
