@@ -100,103 +100,69 @@
 
         // ========== 横、纵坐标 ==========
         var dataArr = [];
-        var num = 15;  //数组的数量  
+        var num = 5;  //数组的数量  
           
         for(var i = 0; i < num ; i++){  
             var tempnum = Math.floor( Math.random() * 50 );   // 返回 0~49 整数  
             dataArr.push(tempnum);  
         }
 
-        console.log(dataArr.length, dataArr);
-          
-        var svg4 = d3.select("#svg4").append("svg")  
-            .attr("width",width)  
-            .attr("height",height);  
-          
-        // 横坐标伸缩尺度
-        /*var xAxisScale = d3.scaleOrdinal()  
-            .domain(d3.range(dataArr.length))
-            //.range([0, 500]); 
-            //.rangeRoundBands([0,500]);
-            .range([0, 500]);*/
+        var svg4 = d3.select('#svg4').append('svg')
+          .attr('width', width)
+          .attr('height', height);
 
+        // 横坐标伸缩比例
         var xAxisScale = d3.scaleLinear()
-          .domain(d3.range(dataArr.length))
-          .range([0, 500]);
-        
-        // 纵坐标标伸缩尺度
-        var yAxisScale = d3.scaleLinear()
-            .domain([0,d3.max(dataArr)])
-            .range([500, 0]);  
+          .domain([0, d3.max(dataArr)])
+          .range([0, 500])
 
-        // 横坐标位置
+        // 纵坐标伸缩比例
+        var yAxisScale = d3.scaleBand()
+          .domain(d3.range(dataArr.length))
+          .range([180, 0]);
+        
+        // 横向比例尺位置
         var xAxis = d3.axisBottom(xAxisScale);
         
-        // 纵坐标位置
+        // 纵向比例尺位置
         var yAxis = d3.axisLeft(yAxisScale);
 
-        // 横向伸缩尺度
-        /*var xScale = d3.scaleOrdinal()  
-            .domain(d3.range(dataArr.length))  
-            .range([0, 500], 0.05);*/
+        // 横向伸缩比例
         var xScale = d3.scaleLinear()
-          .domain([0, 14])
+          .domain([0, d3.max(dataArr)])
           .range([0, 500]);
-            //.range([0,500]);  
-                       
-        // 纵向伸缩尺度
-        var yScale = d3.scaleLinear()  
-            .domain([0,d3.max(dataArr)])  
-            .range([0,500]);
-          
-        svg4.selectAll("rect")  
-           .data(dataArr)  
-           .enter()  
-           .append("rect")  
-           .attr("x", function(d,i){  
-                return 30 + xScale(i);  
-           })  
-           .attr("y", function(d,i){  
-                return 200 - yScale(d);
-           })  
-           .attr("width", function(d,i){  
-                //return xScale.rangeBand();
-                return 30;
-           })  
-           .attr("height",yScale)  
-           .attr("fill","red");  
-             
-        svg4.selectAll("text")  
-            .data(dataArr)  
-            .enter().append("text")  
-            .attr("x", function(d,i){  
-                return /*30 + */xScale(i);  
-           } )  
-           .attr("y",function(d,i){  
-                return 50 + 500 - yScale(d) ;  
-           })  
-            .attr("dx", function(d,i){
-                //return xScale.rangeBand()/3;  
-                return 30;
-           })  
-            .attr("dy", 15)  
-            .attr("text-anchor", "begin")
-            .attr("font-size", 14)  
-            .attr("fill","white")  
-            .text(function(d,i){  
-                return d;  
-            });  
-             
-        svg4.append("g")  
-            .attr("class","axis")  
-            .attr("transform","translate(30,150)")
-            .call(xAxis);
-              
-        svg4.append("g")  
-            .attr("class","axis")  
-            .attr("transform","translate(30,50)")
-            .call(yAxis);
 
+        // 纵向伸缩比例
+        var yScale = d3.scaleBand()
+          .domain(d3.range(dataArr.length))
+          .range([0, 180]);
+
+        // 绘制单元数据块
+        svg4.selectAll('rect')
+          .data(dataArr)
+          .enter()
+          .append('rect')
+          .attr('x', 30)
+          .attr('y', function(d, i) {
+            return yScale(i);
+          })
+          .attr('width', function(d, i) {
+            return xScale(d);
+          })
+          .attr('height', yScale.bandwidth())
+          .attr('fill', '#ccc');
+        // 绘制单文文本
+        // 绘制横坐标
+        svg4.append('g')
+          .attr('class', 'axis')
+          .attr('transform', 'translate(30, 180)')
+          .call(xAxis);
+
+        // 绘制纵坐标
+        svg4.append('g')
+          .attr('class', 'axis')
+          .attr('transform', 'translate(30, 0)')
+          .call(yAxis);
 </script>  
     </body>
 </html>

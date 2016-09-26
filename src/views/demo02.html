@@ -32,12 +32,12 @@
             .attr("width",width)  
             .attr("height",height);
           
-        // 横坐标伸缩尺度
+        // 横坐标伸缩比例
         var xAxisScale = d3.scaleBand()
             .domain(d3.range(dataArr.length))
             .range([0, 500]);
 
-        // 纵坐标伸缩尺度 - 线性
+        // 纵坐标伸缩比例 - 线性
         var yAxisScale = d3.scaleLinear()
             .domain([0, d3.max(dataArr)])
             .range([180, 0]);
@@ -48,12 +48,12 @@
         // 纵坐标位置
         var yAxis = d3.axisLeft(yAxisScale);
 
-        // 横向伸缩尺度
+        // 横向伸缩比例
         var xScale = d3.scaleBand()
             .domain(d3.range(dataArr.length))
             .range([0, 500]);
 
-        // 纵向伸缩尺度
+        // 纵向伸缩比例
         var yScale = d3.scaleLinear()
             .domain([0, d3.max(dataArr)])
             .range([0, 180]);
