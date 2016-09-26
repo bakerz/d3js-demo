@@ -41,13 +41,14 @@
            .attr("y",function(d,i){  
                 return i * 30;  
            })  
-           .attr("width",function(d,i){  
+           .attr("width",function(d,i){
                 return d * 10;  
            })  
            .attr("height",28)  
            .attr("fill","#ccc");  
 
-        //// 弹性范围
+        // ========== 弹性范围 ==========
+        //  d3.scaleLinear() 用于生成一个线性的可缩放的尺度，返回一个函数
         var wx = d3.scaleLinear()  
             .domain([0,d3.max(dataset)])  
             .range([0,500]);
@@ -60,7 +61,7 @@
            .data(dataset)  
            .enter()  
            .append("rect")  
-           .attr("x",10)  
+           .attr("x",10)
            .attr("y",function(d,i){  
                 return i * 30;  
            })  
@@ -68,7 +69,7 @@
            .attr("height",28)  
            .attr("fill","#ccc");
         
-        // 横坐标
+        // ========== 横坐标 ==========
         var svg3 = d3.select("#svg3").append('svg')
             .attr('width', width)
             .attr('height', height);
@@ -97,7 +98,7 @@
             .attr('transform', 'translate(10, 160)')
             .call(axis);
 
-        // 横、纵坐标
+        // ========== 横、纵坐标 ==========
         var dataArr = [];
         var num = 15;  //数组的数量  
           
@@ -105,33 +106,48 @@
             var tempnum = Math.floor( Math.random() * 50 );   // 返回 0~49 整数  
             dataArr.push(tempnum);  
         }
+
+        console.log(dataArr.length, dataArr);
           
-        {/*var svg4 = d3.select("#svg4").append("svg")  
+        var svg4 = d3.select("#svg4").append("svg")  
             .attr("width",width)  
             .attr("height",height);  
           
-        var xAxisScale = d3.scaleOrdinal()  
+        // 横坐标伸缩尺度
+        /*var xAxisScale = d3.scaleOrdinal()  
             .domain(d3.range(dataArr.length))
             //.range([0, 500]); 
             //.rangeRoundBands([0,500]);
-            .range([0, 500]);
-                              
-        var yAxisScale = d3.scaleLinear()  
-            .domain([0,d3.max(dataArr)])  
-            .range([500,0]);  
-                              
+            .range([0, 500]);*/
+
+        var xAxisScale = d3.scaleLinear()
+          .domain(d3.range(dataArr.length))
+          .range([0, 500]);
+        
+        // 纵坐标标伸缩尺度
+        var yAxisScale = d3.scaleLinear()
+            .domain([0,d3.max(dataArr)])
+            .range([500, 0]);  
+
+        // 横坐标位置
         var xAxis = d3.axisBottom(xAxisScale);
-          
+        
+        // 纵坐标位置
         var yAxis = d3.axisLeft(yAxisScale);
-  
-        var xScale = d3.scaleOrdinal()  
+
+        // 横向伸缩尺度
+        /*var xScale = d3.scaleOrdinal()  
             .domain(d3.range(dataArr.length))  
-            //.range([0, 500], 0.05);
-            .range([0,500]);  
-                              
+            .range([0, 500], 0.05);*/
+        var xScale = d3.scaleLinear()
+          .domain([0, 14])
+          .range([0, 500]);
+            //.range([0,500]);  
+                       
+        // 纵向伸缩尺度
         var yScale = d3.scaleLinear()  
             .domain([0,d3.max(dataArr)])  
-            .range([0,500]);  
+            .range([0,500]);
           
         svg4.selectAll("rect")  
            .data(dataArr)  
@@ -139,9 +155,9 @@
            .append("rect")  
            .attr("x", function(d,i){  
                 return 30 + xScale(i);  
-           } )  
-           .attr("y",function(d,i){  
-                return 50 + 500 - yScale(d) ;  
+           })  
+           .attr("y", function(d,i){  
+                return 200 - yScale(d);
            })  
            .attr("width", function(d,i){  
                 //return xScale.rangeBand();
@@ -154,17 +170,17 @@
             .data(dataArr)  
             .enter().append("text")  
             .attr("x", function(d,i){  
-                return 30 + xScale(i);  
+                return /*30 + */xScale(i);  
            } )  
            .attr("y",function(d,i){  
                 return 50 + 500 - yScale(d) ;  
            })  
-            .attr("dx", function(d,i){  
+            .attr("dx", function(d,i){
                 //return xScale.rangeBand()/3;  
                 return 30;
            })  
             .attr("dy", 15)  
-            .attr("text-anchor", "begin")  
+            .attr("text-anchor", "begin")
             .attr("font-size", 14)  
             .attr("fill","white")  
             .text(function(d,i){  
@@ -173,13 +189,13 @@
              
         svg4.append("g")  
             .attr("class","axis")  
-            .attr("transform","translate(30,550)")
+            .attr("transform","translate(30,150)")
             .call(xAxis);
               
         svg4.append("g")  
             .attr("class","axis")  
             .attr("transform","translate(30,50)")
-            .call(yAxis);*/}
+            .call(yAxis);
 
 </script>  
     </body>
