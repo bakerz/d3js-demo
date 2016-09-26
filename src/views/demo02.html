@@ -20,23 +20,21 @@
         var height = 200;  
         
         // ========== 横、纵坐标 ==========
-        var dataArr = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75];
+        var dataArr = [];//[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75];
         var num = 15;  //数组的数量  
           
-        /*for(var i = 0; i < num ; i++){  
+        for(var i = 0; i < num ; i++){  
             var tempnum = Math.floor( Math.random() * 50 );   // 返回 0~49 整数  
             dataArr.push(tempnum);  
-        }*/
+        }
 
-        console.log(dataArr.length, dataArr);
-          
         var svg4 = d3.select("#svg4").append("svg")  
             .attr("width",width)  
             .attr("height",height);
           
         // 横坐标伸缩尺度
-        var xAxisScale = d3.scaleLinear()
-            .domain(d3.range(dataArr))
+        var xAxisScale = d3.scaleBand()
+            .domain(d3.range(dataArr.length))
             .range([0, 500]);
 
         // 纵坐标伸缩尺度 - 线性
@@ -51,8 +49,8 @@
         var yAxis = d3.axisLeft(yAxisScale);
 
         // 横向伸缩尺度
-        var xScale = d3.scaleLinear()
-            .domain([0, 14])
+        var xScale = d3.scaleBand()
+            .domain(d3.range(dataArr.length))
             .range([0, 500]);
 
         // 纵向伸缩尺度
@@ -66,12 +64,12 @@
             .enter()
             .append('rect')
             .attr('x', function(d, i) {
-                return 30 + i * 35;
+                return 30 + xScale(i);
             })
             .attr('y', function(d, i) {
                 return 180 - yScale(d);
             })
-            .attr('width', 20)
+            .attr('width', xScale.bandwidth())  //// 居中????
             .attr('height', yScale)
             .attr('fill', '#ccc');
 
@@ -81,12 +79,12 @@
             .enter()
             .append('text')
             .attr('x', function(d, i) {
-                return 30 + i * 35;
+                return 30 + xScale(i);
             })
             .attr('y', function(d, i) {
                 return 180 - yScale(d);
             })
-            .attr('dx', 5)
+            .attr('dx', xScale.bandwidth()/3)  /// 居中？？
             .attr('dy', 10)
             .attr("font-size", 14)  
             .attr("fill","#000")  
