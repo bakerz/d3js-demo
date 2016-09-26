@@ -1,0 +1,23 @@
+{
+  "name": "d3js-demo",
+  "version": "1.0.0",
+  "description": "这里是自己学习 D3.js 的一些 demo，方便随时回顾",
+  "main": "index.js",
+  "dependencies": {
+    "d3": "^4.2.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bakerz/d3js-demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bakerz/d3js-demo/issues"
+  },
+  "homepage": "https://github.com/bakerz/d3js-demo#readme"
+}
