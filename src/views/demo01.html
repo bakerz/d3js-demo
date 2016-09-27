@@ -152,6 +152,24 @@
           .attr('height', yScale.bandwidth())
           .attr('fill', '#ccc');
         // 绘制单文文本
+        svg4.selectAll('text')
+          .data(dataArr)
+          .enter()
+          .append('text')
+          .attr('x', function(d, i) {
+            return xScale(d);
+          })
+          .attr('y', function(d, i) {
+            return yScale.bandwidth()*2/3 +  yScale(i);
+          })
+          .attr('dx', 0)
+          .attr('dy', 0)
+          .attr('font-size', '14px')
+          .attr('fill', '#000')
+          .text(function(d, i) {
+            return d;
+          })
+
         // 绘制横坐标
         svg4.append('g')
           .attr('class', 'axis')
