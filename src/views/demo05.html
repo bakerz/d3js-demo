@@ -5,6 +5,79 @@
         <script src="http://cdn.bootcss.com/d3/3.5.17/d3.js"></script>
     </head>
     <body>
+        <div id="legend">
+            <h3>带图例</h3>
+        </div>
+        <script type="text/javascript">
+        var width = 600, height = 500;
+
+        var color = d3.scale.category10();
+
+        var dataArr = [];
+        //var dataArr = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75];
+
+        for(var i = 0; i < 15 ; i++){
+            var tempnum = Math.floor( Math.random() * 50 );   // 返回 0~49 整数
+            dataArr.push(tempnum);
+        }
+
+        console.log(dataArr);
+
+        var legend = d3.select('#legend')
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height);
+
+        var yAxisScale = d3.scale.linear()
+            .domain([0, d3.max(dataArr)])
+            .range([450, 0]);
+
+        var yAxis = d3.svg.axis()
+            .scale(yAxisScale)
+            .orient('left');
+
+        var yScale = d3.scale.linear()
+            .domain([0, d3.max(dataArr)])
+            .range([0, 450]);
+
+
+        legend.selectAll('rect')
+            .data(dataArr)
+            .enter()
+            .append('rect')
+            .attr('x', function(d, i) {
+                return 30 + 30 * i;
+            })
+            .attr('y', function(d, i) {
+                return 450 + 20 - yScale(d);
+            })
+            .attr('width', 28)
+            .attr('height', yScale)
+            .attr('fill', '#ccc');
+
+        legend.append('g')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(30, 20)')
+            .call(yAxis);
+
+        legend.selectAll('text')
+            .data(dataArr)
+            .enter()
+            .append('text')
+            .attr('x', function(d, i) {
+                return 30 + 30 * i;
+            })
+            .attr('y', function(d, i) {
+                return 450 + 20 - yScale(d);
+            })
+            .attr('dx', 7)
+            .attr('dy', 15)
+            .attr('font-size', 14)
+            .attr('fill', '#000')
+            .text(function(d,i) {
+                return d;
+            });
+        </script>
         <script type="text/javascript">
         var width = 500, height = 500;
 
