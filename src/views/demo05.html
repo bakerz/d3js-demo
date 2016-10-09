@@ -21,8 +21,6 @@
             dataArr.push(tempnum);
         }
 
-        console.log(dataArr);
-
         var legend = d3.select('#legend')
             .append('svg')
             .attr('width', width)
@@ -55,10 +53,6 @@
             .attr('height', yScale)
             .attr('fill', '#ccc');
 
-        legend.append('g')
-            .attr('class', 'axis')
-            .attr('transform', 'translate(30, 20)')
-            .call(yAxis);
 
         legend.selectAll('text')
             .data(dataArr)
@@ -77,6 +71,11 @@
             .text(function(d,i) {
                 return d;
             });
+            
+        legend.append('g')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(30, 20)')
+            .call(yAxis);
         </script>
         <script type="text/javascript">
         var width = 500, height = 500;
