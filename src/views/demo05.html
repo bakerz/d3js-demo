@@ -5,18 +5,18 @@
         <script src="http://cdn.bootcss.com/d3/3.5.17/d3.js"></script>
     </head>
     <body>
-        <div id="legend">
+        <div id="legend" style="border: 1px solid #ccc;">
             <h3>带图例</h3>
         </div>
         <script type="text/javascript">
         var width = 600, height = 500;
 
-        var color = d3.scale.category10();
+        var color = d3.scale.category20c();
 
         var dataArr = [];
         //var dataArr = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75];
 
-        for(var i = 0; i < 15 ; i++){
+        for(var i = 0; i < 5 ; i++){
             var tempnum = Math.floor( Math.random() * 50 );   // 返回 0~49 整数
             dataArr.push(tempnum);
         }
@@ -38,7 +38,6 @@
             .domain([0, d3.max(dataArr)])
             .range([0, 450]);
 
-
         legend.selectAll('rect')
             .data(dataArr)
             .enter()
@@ -46,13 +45,12 @@
             .attr('x', function(d, i) {
                 return 30 + 30 * i;
             })
-            .attr('y', function(d, i) {
+            .attr('y', function(d) {
                 return 450 + 20 - yScale(d);
             })
             .attr('width', 28)
             .attr('height', yScale)
-            .attr('fill', '#ccc');
-
+            .attr('fill', color);
 
         legend.selectAll('text')
             .data(dataArr)
@@ -71,7 +69,7 @@
             .text(function(d,i) {
                 return d;
             });
-            
+
         legend.append('g')
             .attr('class', 'axis')
             .attr('transform', 'translate(30, 20)')
