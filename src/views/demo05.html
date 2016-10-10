@@ -510,7 +510,7 @@
             console.log('data=',data);
 
             var svg = d3.select('body').append('svg')
-                .attr('width', width)
+                .attr('width', '100%')
                 .attr('height', height);
 
 
@@ -525,7 +525,11 @@
             var unitGroups = comGroups.selectAll('g')
                 .data(function(d){
                     console.log('com', d);
-                    return d.children;
+                    if(d.children){
+                        return d.children
+                    }else{
+                        return new Array();
+                    }
                 })
                 .enter()
                 .append('g')
@@ -567,25 +571,25 @@
                     return d.name;
                 });
 
-            var labelHeight = 50;
+            var labelHeight = 30;
             var labelRadius = 10;
 
             labelGroups.append('circle')
-                .attr('cx', width - 100) 
+                .attr('cx', 10)
                 .attr('cy', function(d,i) {
-                    return i * 30 + 30;
+                    return i * 30 + labelHeight;
                 })
                 .attr('r', labelRadius);
 
             labelGroups.append('text')
-                .attr('x', width - 85)
+                .attr('x', 25)
                 .attr('y', function(d,i) {
-                    return i * 30 + 30;
+                    return i * 30 + labelHeight;
                 })
                 .attr('dy', labelRadius/2)
                 .text(function(d){
-                    return d.name;
-                })
+                    return '组件：' + d.name;
+                });
         
         </script>
     </body>
