@@ -1,8 +1,97 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-  </head>
-  <body>
-  </body>
+<head>
+	<title></title>
+	<script type="text/javascript" src="d3-4.2.6.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+	var width = 300, height = 90;
+	var svg;
+
+	var dataArr = [];
+
+	for (var i = 0; i < 5; i++) {
+		var temp = Math.floor(Math.random() * 50);
+		dataArr.push(temp);
+	}
+
+	svg = d3.select('body')
+		.append('svg')
+		.width('width', width)
+		.height('height', height);
+
+	// 横坐标伸缩比例
+        var xAxisScale = d3.scaleLinear()
+          .domain([0, d3.max(dataArr)])
+          .range([0, 500])
+
+        // 纵坐标伸缩比例
+        var yAxisScale = d3.scaleBand()
+          .domain(d3.range(dataArr.length))
+          .range([180, 0]);
+        
+        // 横向比例尺位置
+        var xAxis = d3.axisBottom(xAxisScale);
+        
+        // 纵向比例尺位置
+        var yAxis = d3.axisLeft(yAxisScale);
+
+        // 横向伸缩比例
+        var xScale = d3.scaleLinear()
+          .domain([0, d3.max(dataArr)])
+          .range([0, 500]);
+
+        // 纵向伸缩比例
+        var yScale = d3.scaleBand()
+          .domain(d3.range(dataArr.length))
+          .range([0, 180]);
+
+        // 绘制单元数据块
+        svg.selectAll('rect')
+          .data(dataArr)
+          .enter()
+          .append('rect')
+          .attr('x', 30)
+          .attr('y', function(d, i) {
+            return yScale(i);
+          })
+          .attr('width', function(d, i) {
+            return xScale(d);
+          })
+          .attr('height', yScale.bandwidth())
+          .attr('fill', '#ccc');
+          
+        // 绘制单文文本
+        svg.selectAll('text')
+          .data(dataArr)
+          .enter()
+          .append('text')
+          .attr('x', function(d, i) {
+            return xScale(d);
+          })
+          .attr('y', function(d, i) {
+            return yScale.bandwidth()*2/3 +  yScale(i);
+          })
+          .attr('dx', 0)
+          .attr('dy', 0)
+          .attr('font-size', '14px')
+          .attr('fill', '#000')
+          .text(function(d, i) {
+            return d;
+          })
+
+        // 绘制横坐标
+        svg.append('g')
+          .attr('class', 'axis')
+          .attr('transform', 'translate(30, 180)')
+          .call(xAxis);
+
+        // 绘制纵坐标
+        svg.append('g')
+          .attr('class', 'axis')
+          .attr('transform', 'translate(30, 0)')
+          .call(yAxis);
+</script>
+</body>
 </html>
