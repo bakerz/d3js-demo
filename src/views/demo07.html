@@ -6,7 +6,37 @@
 </head>
 <body>
 <script type="text/javascript">
-	
+	var instance = {}; // <-- A
+
+
+
+var headline, description; // <-- B
+
+
+
+instance.render = function () {
+
+  var div = d3.select('body').append("div");
+
+
+
+  div.append("h3").text(headline); // <-- C
+
+
+
+  div.attr("class", "box")
+
+    .attr("style", "color:" + spec.color) // <-- D
+
+    .append("p")
+
+    .text(description); // <-- E
+
+
+
+  return instance; // <-- F
+
+};
 </script>
 </body>
 </html>
